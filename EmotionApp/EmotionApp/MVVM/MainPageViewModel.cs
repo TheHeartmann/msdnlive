@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using Microsoft.ProjectOxford.Emotion.Contract;
 using System.Linq;
 using EmotionApp.Models;
+using System.Reflection;
 
 namespace EmotionApp.MVVM
 {
@@ -28,7 +29,7 @@ namespace EmotionApp.MVVM
         public MainPageViewModel()
         {
             _imageCapture = new ImageCapture();
-            _client = new EmotionServiceClient("b9609c9cc0b848539f7f53a0f4ea5aad");
+            _client = new EmotionServiceClient("[Your API key here]");
 
             #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             _imageCapture.InitializeAsync();
@@ -82,81 +83,150 @@ namespace EmotionApp.MVVM
             var fileStream = await file.OpenStreamForReadAsync();
             var results    = await _client.RecognizeAsync(fileStream);
 
-            ParseResults(results);
+            ParseResults(results, image);
         }
 
-        private void ParseResults(Emotion[] results)
+        private void ParseResults(Emotion[] results, WriteableBitmap bitmap)
         {
             if(results == null || results.Length == 0)
                 return;
 
             var scores = results[0].Scores;
+
+
+
+
+
+            var properties = scores.GetType().GetTypeInfo().DeclaredProperties;
+            var sortedProperties = properties.Select(s => new { Name = s.Name, Score = s.GetValue(scores) }).OrderByDescending(o => o.Score);
             
-            
-            _anger     = new EmotionScore("Anger"    , scores.Anger);
-            _contemt   = new EmotionScore("Contempt" , scores.Contempt);
-            _disgust   = new EmotionScore("Disgust"  , scores.Disgust);
-            _fear      = new EmotionScore("Fear"     , scores.Fear);
-            _happiness = new EmotionScore("Happiness", scores.Happiness);
-            _neutral   = new EmotionScore("Neutral"  , scores.Neutral);
-            _sadness   = new EmotionScore("Sadness"  , scores.Sadness);
-            _surprise  = new EmotionScore("Surprise" , scores.Surprise);
+            var first = sortedProperties.First();
+
+            switch(first.Name)
+            {
+                case "Anger" : AngerScore        = new EmotionScore(first.Name, (float)first.Score) { Bitmap = bitmap }; break;
+                case "Contempt": ContemptScore   = new EmotionScore(first.Name, (float)first.Score) { Bitmap = bitmap }; break;
+                case "Disgust": DisgustScore     = new EmotionScore(first.Name, (float)first.Score) { Bitmap = bitmap }; break;
+                case "Fear": FearScore           = new EmotionScore(first.Name, (float)first.Score) { Bitmap = bitmap }; break;
+                case "Happiness": HappinessScore = new EmotionScore(first.Name, (float)first.Score) { Bitmap = bitmap }; break;
+                case "Neutral": NeutralScore     = new EmotionScore(first.Name, (float)first.Score) { Bitmap = bitmap }; break;
+                case "Sadness": SadnessScore     = new EmotionScore(first.Name, (float)first.Score) { Bitmap = bitmap }; break;
+                case "Surprise": SurpriseScore   = new EmotionScore(first.Name, (float)first.Score) { Bitmap = bitmap }; break;
+            }
         }
 
-        public WriteableBitmap ContemptImage
+
+        public EmotionScore ContemptScore
         {
-            get { return null; }
-            set { }
-        }
-        public WriteableBitmap DisgustImage
-        {
-            get { return null; }
+            get { return _contemt; }
             set
             {
+                if (_contemt == value)
+                    return;
+
+                _contemt = value;
+                ShoutAbout("ContemptScore");
             }
         }
-        public WriteableBitmap FearImage
+
+
+        public EmotionScore DisgustScore
         {
-            get { return null; }
+            get { return _disgust; }
             set
             {
+                if (_disgust == value)
+                    return;
+
+                _disgust = value;
+                ShoutAbout("DisgustScore");
             }
         }
-        public WriteableBitmap HappinessImage
+
+
+        public EmotionScore FearScore
         {
-            get { return null; }
+            get { return _fear; }
             set
             {
+                if (_fear == value)
+                    return;
+
+                _fear = value;
+                ShoutAbout("FearScore");
             }
         }
-        public WriteableBitmap NeutralImage
+
+
+        public EmotionScore HappinessScore
         {
-            get { return null; }
+            get { return _happiness; }
             set
             {
+                if (_happiness == value)
+                    return;
+
+                _happiness = value;
+                ShoutAbout("HappinessScore");
             }
         }
-        public WriteableBitmap SadnessImage
+
+
+        public EmotionScore NeutralScore
         {
-            get { return null; }
+            get { return _neutral; }
             set
             {
+                if (_neutral == value)
+                    return;
+
+                _neutral = value;
+                ShoutAbout("NeutralScore");
             }
         }
-        public WriteableBitmap SurpriseImage
+
+
+        public EmotionScore SurpriseScore
         {
-            get { return null; }
+            get { return _surprise; }
             set
             {
+                if (_surprise == value)
+                    return;
+                _surprise = value;
+                ShoutAbout("SurpriseScore");
             }
         }
-        public EmotionScore AngerImage
+
+
+        public EmotionScore SadnessScore
         {
-            get { return new EmotionScore("Anger", 66.7f); }
+            get { return _sadness; }
             set
             {
+                if (_sadness == value)
+                    return;
+
+                _sadness = value;
+                ShoutAbout("SadnessScore");
             }
         }
+
+        public EmotionScore AngerScore
+        {
+            get { return _anger; }
+            set
+            {
+                if (_anger == value)
+                    return;
+
+                _anger = value;
+                ShoutAbout("AngerScore");
+            }
+        }
+
+
+       
 
 
     }

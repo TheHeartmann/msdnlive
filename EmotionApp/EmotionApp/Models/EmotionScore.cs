@@ -46,7 +46,7 @@ namespace EmotionApp.Models
 
         public string Percentage
         {
-            get { return string.Format("{0}%", Score.ToString("0.0")); }
+            get { return string.Format("{0}%", (Score * 100).ToString("0.0")); }
         }
     }
 }

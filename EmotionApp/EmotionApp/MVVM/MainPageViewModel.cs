@@ -13,6 +13,7 @@ namespace EmotionApp.MVVM
 {
     public class MainPageViewModel : BaseViewModel
     {
+        public event EventHandler<string> OnError;
         private ImageCapture _imageCapture;
         private readonly EmotionServiceClient _client;
         private bool _canTakePicture;
@@ -94,8 +95,12 @@ namespace EmotionApp.MVVM
 
         private void ParseResults(Emotion[] results, WriteableBitmap bitmap)
         {
-            if(results == null || results.Length == 0)
+            if (results == null || results.Length == 0)
+            {
+                if (OnError != null)
+                    OnError(this, "Fikk ikke et bilde som gav resultater. Prøv igjen!");
                 return;
+            }
 
             var scores           = results[0].Scores;
             var properties       = scores.GetType().GetTypeInfo().DeclaredProperties;

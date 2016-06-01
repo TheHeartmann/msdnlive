@@ -51,7 +51,7 @@
                    FontSize="80"
                    />
 
-        <TextBlock Text="Powered by Microsoft Artificial intelligence - Project Oxford"
+        <TextBlock Text="Powered by Microsoft AI- microsoft.com/cognitive"
                    Foreground="White"
                    HorizontalAlignment="Center"
                    Grid.Row="7"
@@ -75,8 +75,7 @@
         <TextBlock Grid.Row="6" Grid.Column="3" Style="{StaticResource EmotionTitleStyle}" Text="bedrøvelse"    />
         <TextBlock Grid.Row="6" Grid.Column="4" Style="{StaticResource EmotionTitleStyle}" Text="Overraskelse" />
 
-        <Border Grid.Row="2" Grid.Column="1" BorderThickness="3" BorderBrush="Red" CornerRadius="5" Margin="10 0"><views:EmotionView DataContext="{Binding AngerScore}" Margin="3"/></Border>
-        
+        <Border Grid.Row="2" Grid.Column="1" BorderThickness="3" BorderBrush="{StaticResource ImageBorderBrush}" CornerRadius="5" Margin="10 0"><views:EmotionView DataContext="{Binding AngerScore}" Margin="3"/></Border>
         <Border Grid.Row="2" Grid.Column="2" BorderThickness="3" BorderBrush="{StaticResource ImageBorderBrush}" CornerRadius="5" Margin="10 0"><views:EmotionView DataContext="{Binding DisgustScore}" Margin="3"/></Border>
         <Border Grid.Row="2" Grid.Column="3" BorderThickness="3" BorderBrush="{StaticResource ImageBorderBrush}" CornerRadius="5" Margin="10 0"><views:EmotionView DataContext="{Binding ContemptScore}" Margin="3"/></Border>
         <Border Grid.Row="2" Grid.Column="4" BorderThickness="3" BorderBrush="{StaticResource ImageBorderBrush}" CornerRadius="5" Margin="10 0"><views:EmotionView DataContext="{Binding FearScore}" Margin="3"/></Border>

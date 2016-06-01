@@ -14,7 +14,5 @@
         </Style>
 
         <SolidColorBrush x:Key="ImageBorderBrush" Color="Navy" Opacity="0.5" />
-
     </Application.Resources>
-    
 </Application>

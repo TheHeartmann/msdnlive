@@ -8,7 +8,9 @@ namespace EmotionApp.Models
         private WriteableBitmap _bitmap;
         private float _score;
 
+
         public string Name { get; set; }
+
 
         public float Score
         {
@@ -31,6 +33,7 @@ namespace EmotionApp.Models
             Score = score;
         }
 
+
         public WriteableBitmap Bitmap
         {
             get { return _bitmap; }
@@ -43,6 +46,7 @@ namespace EmotionApp.Models
                 ShoutAbout("Bitmap");
             }
         }
+
 
         public string Percentage
         {

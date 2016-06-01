@@ -38,7 +38,9 @@ namespace EmotionApp.MVVM
             CanTakePicture = true;
         }
 
+
         private RelayCommand _takePictureCommand { get; set; }
+
 
         public ICommand TakePictureCommand
         {
@@ -50,6 +52,7 @@ namespace EmotionApp.MVVM
                 return _takePictureCommand;
             }
         }
+
 
         public bool CanTakePicture
         {
@@ -64,6 +67,7 @@ namespace EmotionApp.MVVM
             }
         }
 
+
         private async void TakePicture()
         {
             CanTakePicture = false;
@@ -73,6 +77,7 @@ namespace EmotionApp.MVVM
 
             CanTakePicture = true;
         }
+
 
         private async Task ProcessImageWithEmotionApiAsync(WriteableBitmap image)
         {
@@ -86,18 +91,14 @@ namespace EmotionApp.MVVM
             ParseResults(results, image);
         }
 
+
         private void ParseResults(Emotion[] results, WriteableBitmap bitmap)
         {
             if(results == null || results.Length == 0)
                 return;
 
-            var scores = results[0].Scores;
-
-
-
-
-
-            var properties = scores.GetType().GetTypeInfo().DeclaredProperties;
+            var scores           = results[0].Scores;
+            var properties       = scores.GetType().GetTypeInfo().DeclaredProperties;
             var sortedProperties = properties.Select(s => new { Name = s.Name, Score = s.GetValue(scores) }).OrderByDescending(o => o.Score);
             
             var first = sortedProperties.First();
@@ -212,6 +213,7 @@ namespace EmotionApp.MVVM
             }
         }
 
+
         public EmotionScore AngerScore
         {
             get { return _anger; }
@@ -224,10 +226,5 @@ namespace EmotionApp.MVVM
                 ShoutAbout("AngerScore");
             }
         }
-
-
-       
-
-
     }
 }
